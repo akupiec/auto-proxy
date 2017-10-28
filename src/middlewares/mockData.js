@@ -10,7 +10,7 @@ function parseDirName(config, contextPath, method) {
 }
 
 let parseFileName = function (contextPath, url, hash) {
-    return url.replace(contextPath, '').replace(/\?.*/, '').replace(/^\//g, '').replace(/\//g, '_') + hash + '.json';
+    return url.replace(contextPath, '').replace(/\?.*/, '').replace(/^\//g, '').replace(/\//g, '_') + hash;
 };
 
 module.exports = function (config) {

@@ -1,14 +1,12 @@
-const fs = require('fs');
-
-const mockExists = (mockData) => {
-    return fs.existsSync(mockData.filePath);
-};
+const cacheFileResolve = require('./utils').cacheFileResolve;
 
 module.exports = function validateCache() {
     return function middleware(req, res, next) {
-        req.mock.mockExists = mockExists(req.mock);
+        let filePath = cacheFileResolve(req.mock.filePath);
+        if(filePath) {
+            req.mock.mockExists = true;
+            req.mock.filePath = filePath;
+        }
         next();
     };
 };
-
-// module.exports.queryToString = queryToString;
