@@ -1,6 +1,7 @@
 const deepAssign = require('deep-assign');
 const argv = require('./argv');
 const path = require('path');
+const LOGGER = require('./logger')(argv);
 
 let configFileData = {};
 if (argv.config) {
@@ -10,8 +11,7 @@ if (argv.config) {
         configFileData = require(fileName);
     } catch (e) {
         module.exports = argv;
-        const Logger = require('./logger');
-        Logger.fatal(`No config file ${fileName} was found, this will cause severe errors!!.`);
+        LOGGER.fatal(`No config file ${fileName} was found, this will cause severe errors!!.`);
     }
 }
 const config = deepAssign({}, argv, configFileData);

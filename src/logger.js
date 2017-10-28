@@ -2,12 +2,12 @@
 const chalk = require('chalk');
 
 //ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF
-const LOG_PRIORYTY = ['ALL', 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL', 'OFF'];
+const LOG_PRIORITY = ['ALL', 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL', 'OFF'];
 module.exports = function (config) {
     const log = (lvl, ...args) => {
         let logCode = lvl;
-        const argLogIdx = LOG_PRIORYTY.indexOf(config.log);
-        const lvlIdx = LOG_PRIORYTY.indexOf(lvl);
+        const argLogIdx = LOG_PRIORITY.indexOf(config.log);
+        const lvlIdx = LOG_PRIORITY.indexOf(lvl);
         if (argLogIdx > lvlIdx) {
             logCode = 'NO_LOG';
         }

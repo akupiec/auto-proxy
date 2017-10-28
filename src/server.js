@@ -9,8 +9,11 @@ const bodyDataInterceptor = require('./middlewares/bodyDataInterceptor');
 const reverseProxy = require('./middlewares/reverseProxy');
 const mockGetter = require('./middlewares/mockGeter');
 const mockSaver = require('./middlewares/mockSaver');
+const logger = require('./logger');
 
-module.exports = function (proxyServer, config, logger) {
+module.exports = function (proxyServer, config) {
+    const LOGGER = logger(config);
+
     const app = express();
     app.use(cookieParser());
     app.use(bodyParser.raw({type: '*/*'}));
@@ -20,7 +23,7 @@ module.exports = function (proxyServer, config, logger) {
     }
 
     config.proxies.map(proxy => {
-        logger.info(`Binding proxy on: ${proxy.contextPath}`);
+        LOGGER.info(`Binding proxy on: ${proxy.contextPath}`);
 
         app.use(proxy.contextPath, mockData(config));
         app.use(proxy.contextPath, validateCache(config));
@@ -32,13 +35,13 @@ module.exports = function (proxyServer, config, logger) {
 
 
     if (config.server.fallback) {
-        logger.info(`Binding fallback: ${config.server.path}${config.server.fallback}`);
-        app.all('/*', function (req, res, next) {
+        LOGGER.info(`Binding fallback: ${config.server.path}${config.server.fallback}`);
+        app.all('/*', function (req, res) {
             res.sendFile(config.server.fallback, {root: config.server.path});
         });
     }
     
     return app.listen(config.server.port, function () {
-        logger.info(`LOCAL PROXY SERVER: listening on http://localhost:${config.server.port} and proxing: ${config.server.target} \n\n`);
+        LOGGER.info(`LOCAL PROXY SERVER: listening on http://localhost:${config.server.port} and proxing: ${config.server.target} \n\n`);
     });
 };

@@ -37,13 +37,4 @@ describe('loading express', function () {
                 assert.equal(response.text, 'REVERSE RESPONSE SUCCESS');
             });
     });
-    it('response fallback', function () {
-        return request(server)
-            .get('/api/dddd/dwa22/fwwss')
-            .send('QQfsfsfesfs')
-            .expect(200)
-            .then(response => {
-                // assert.equal(response.text, 'bbbb');
-            });
-    });
 });

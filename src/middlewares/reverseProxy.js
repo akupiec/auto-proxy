@@ -1,7 +1,11 @@
-module.exports = function (confing, proxy) {
-    return function middleware(req, res, next) {
+const logger = require('../logger');
+
+module.exports = function (config, proxy) {
+    const LOGGER = logger(config);
+
+    return function middleware(req, res) {
         if(!req.mock.mockExists) {
-            console.log(`Sending: ${req.method} ${req.url} ${req.mock.hash}`);
+            LOGGER.debug(`Sending: ${req.method} ${req.url} ${req.mock.hash}`);
             proxy.web(req, res);
         }
     };

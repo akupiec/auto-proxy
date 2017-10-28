@@ -1,7 +1,4 @@
-// const fs = require('fs');
 const StreamWriter = require('../StreamWriter');
-// const zlib = require('zlib');
-
 
 module.exports = function validateCache() {
     return function (req, res, next) {
@@ -24,9 +21,6 @@ module.exports = function validateCache() {
             oldEnd.apply(res, arguments);
         };
 
-        ws.on('finish', () => {
-            console.log("Got body: ", ws.body.toString());
-        });
         next();
     };
 };
