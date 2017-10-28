@@ -1,0 +1,58 @@
+{
+  "private": true,
+  "name": "auto-proxy",
+  "version": "0.0.1",
+  "description": "Auto caching reverse prxy, with partial static server",
+  "main": "bin/auto-proxy",
+  "directories": {
+    "test": "test"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akupiec/auto-proxy.git"
+  },
+  "keywords": [
+    "auto-proxy",
+    "node",
+    "proxy",
+    "mocking",
+    "proxy",
+    "mocks",
+    "caching",
+    "proxy",
+    "cache"
+  ],
+  "author": "akupiec",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akupiec/auto-proxy/issues"
+  },
+  "homepage": "https://github.com/akupiec/auto-proxy#readme",
+  "engines": {
+    "node": ">=6.9.2"
+  },
+  "bin": {
+    "auto-proxy": "bin/auto-proxy"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "unit": "mocha",
+    "test": "npm run lint && npm run unit"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "chalk": "^2.3.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.2",
+    "http-proxy": "^1.16.2",
+    "yargs": "^10.0.3"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
+  }
+}
