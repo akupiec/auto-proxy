@@ -27,7 +27,7 @@ module.exports = function (proxyServer, config, logger) {
         app.use(proxy.contextPath, bodyDataInterceptor(config));
         app.use(proxy.contextPath, mockSaver(config));
         app.use(proxy.contextPath, mockGetter(config));
-        app.use(proxy.contextPath, reverseProxy(config, proxyServer));
+        app.all(proxy.contextPath + '/*', reverseProxy(config, proxyServer));
     });
 
 

@@ -15,7 +15,7 @@ let parseFileName = function (contextPath, url, hash) {
 
 module.exports = function (config) {
     return function middleware(req, res, next) {
-        const reqBody = req.body.toString();
+        const reqBody = req.body ? req.body.toString() : '' ;
         const strQuery = queryToString(req.query);
         const hash = '#' + crc.crc32(strQuery + reqBody).toString(16);
         const dirName = parseDirName(config, req.baseUrl, req.method);
