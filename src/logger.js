@@ -1,15 +1,14 @@
 /* eslint-disable no-console */
 const chalk = require('chalk');
-const argv = require('./argv');
 
 //ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF
 const LOG_PRIORYTY = ['ALL', 'TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL', 'OFF'];
-module.exports = class Logger {
-    constructor(lvl, ...args) {
+module.exports = function (config) {
+    const log = (lvl, ...args) => {
         let logCode = lvl;
-        const argLogIdx = LOG_PRIORYTY.indexOf(argv.log);
+        const argLogIdx = LOG_PRIORYTY.indexOf(config.log);
         const lvlIdx = LOG_PRIORYTY.indexOf(lvl);
-        if(argLogIdx > lvlIdx) {
+        if (argLogIdx > lvlIdx) {
             logCode = 'NO_LOG';
         }
         switch (logCode) {
@@ -40,31 +39,35 @@ module.exports = class Logger {
                 break;
             }
             default:
-        // console.log('WRONG LOG LEVEL! CHECK CODE!', lvl, ...args);
+            // console.log('WRONG LOG LEVEL! CHECK CODE!', lvl, ...args);
         }
-    }
+    };
 
-    static fatal(...args) {
-        return new Logger('FATAL', ...args);
-    }
+    const fatal = (...args) => {
+        return log('FATAL', ...args);
+    };
 
-    static error(...args) {
-        return new Logger('ERROR', ...args);
-    }
+    const error = (...args) => {
+        return log('ERROR', ...args);
+    };
 
-    static warn(...args) {
-        return new Logger('WARN', ...args);
-    }
+    const warn = (...args) => {
+        return log('WARN', ...args);
+    };
 
-    static info(...args) {
-        return new Logger('INFO', ...args);
-    }
+    const info = (...args) => {
+        return log('INFO', ...args);
+    };
 
-    static debug(...args) {
-        return new Logger('DEBUG', ...args);
-    }
+    const debug = (...args) => {
+        return log('DEBUG', ...args);
+    };
 
-    static trace(...args) {
-        return new Logger('TRACE', ...args);
-    }
+    const trace = (...args) => {
+        return log('TRACE', ...args);
+    };
+
+    return {
+        log, debug, error, fatal, info, trace, warn,
+    };
 };

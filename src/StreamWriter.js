@@ -18,6 +18,6 @@ module.exports = class StreamWriter extends stream.Writable {
 
         this.writable = false;
         this.body = Buffer.concat(this.raw);
-        this.emit('finish');
+        super.end(...arguments);
     }
 };

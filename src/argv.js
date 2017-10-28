@@ -1,7 +1,5 @@
 /* globals process */
 const yargs = require('yargs');
-const path = require('path');
-const deepAssign = require('deep-assign');
 
 const GENERAL_GROUP = 'General:';
 const SERVER_GROUP = 'Local Server:';
@@ -11,7 +9,7 @@ const argv = yargs.usage('$0 cli usage:')
         describe: 'Path to the config file, accepts js|json. All cli options can be override by configuration file.',
         type: 'string',
         group: GENERAL_GROUP,
-        default: 'amp.json',
+        default: 'auto-proxy.json',
     })
     .options('mock', {
         alias: 'm',
@@ -82,22 +80,4 @@ const argv = yargs.usage('$0 cli usage:')
     .wrap(null)
     .argv;
 
-let configFileData = {};
-if (argv.config) {
-    let fileName;
-    try {
-        fileName = path.normalize(process.cwd() + '/' + argv.config);
-        configFileData = require(fileName);
-    } catch (e) {
-        module.exports = argv;
-        const Logger = require('./logger');
-        Logger.fatal(`No config file ${fileName} was found, this will cause severe errors!!.`);
-    }
-}
-const config = deepAssign({}, argv, configFileData);
-config.server.path = path.normalize(process.cwd() + '/' + argv.server.path);
-
-module.exports = config;
-
-const Logger = require('./logger');
-Logger.trace('All config Props: ', JSON.stringify(config));
+module.exports = argv;
