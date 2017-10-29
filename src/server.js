@@ -7,11 +7,10 @@ const bodyDataInterceptor = require('./middlewares/bodyDataInterceptor');
 const reverseProxy = require('./middlewares/reverseProxy');
 const mockGetter = require('./middlewares/mockGeter');
 const mockSaver = require('./middlewares/mockSaver');
-const logger = require('./logger');
+const config = require('./config');
+const LOGGER = require('./logger')(config);
 
-module.exports = function (proxyServer, config) {
-    const LOGGER = logger(config);
-
+module.exports = function (proxyServer) {
     const app = express();
     app.use(cookieParser());
     app.use(bodyParser.raw({type: '*/*'}));
@@ -20,15 +19,15 @@ module.exports = function (proxyServer, config) {
         app.use(config.server.staticSource, express.static(config.server.staticPath));
     }
 
-    config.proxies.map(proxy => {
-        LOGGER.info(`Binding proxy on: ${proxy.contextPath}`);
+    config.proxies.map(confProxy => {
+        LOGGER.info(`Binding proxy on: ${confProxy.contextPath}`);
 
-        app.use(proxy.contextPath, mockData(config));
-        app.use(proxy.contextPath, validateCache(config));
-        app.use(proxy.contextPath, bodyDataInterceptor(config));
-        app.use(proxy.contextPath, mockSaver(config));
-        app.use(proxy.contextPath, mockGetter(config));
-        app.all(proxy.contextPath + '/*', reverseProxy(config, proxyServer));
+        app.use(confProxy.contextPath, mockData(confProxy));
+        app.use(confProxy.contextPath, validateCache(confProxy));
+        app.use(confProxy.contextPath, bodyDataInterceptor(confProxy));
+        app.use(confProxy.contextPath, mockSaver(confProxy));
+        app.use(confProxy.contextPath, mockGetter(confProxy));
+        app.all(confProxy.contextPath + '/*', reverseProxy(confProxy, proxyServer));
     });
 
     if (config.server.fallback) {

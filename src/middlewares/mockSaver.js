@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const utils = require('./utils');
-const logger = require('../logger');
+const config = require('../config');
+const LOGGER = require('../logger')(config);
 
 
 function mkdirSync(filePath) {
@@ -13,9 +14,7 @@ function mkdirSync(filePath) {
     fs.mkdirSync(dirName);
 }
 
-module.exports = function (config) {
-    const LOGGER = logger(config);
-
+module.exports = function () {
     return function middleware(req, res, next) {
         if(req.mock.mockExists) {
             next();

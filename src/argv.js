@@ -15,7 +15,6 @@ const argv = yargs.usage('$0 cli usage:')
     .options('mock', {
         alias: 'm',
         describe: 'destination path where mocks will be stored',
-        default: 'mocks',
         group: GENERAL_GROUP,
     })
     .options('server.port', {
@@ -23,7 +22,6 @@ const argv = yargs.usage('$0 cli usage:')
         type: 'number',
         describe: 'local server port',
         group: SERVER_GROUP,
-        default: 8088,
     })
     .options('server.fallback', {
         type: 'string',
@@ -35,19 +33,21 @@ const argv = yargs.usage('$0 cli usage:')
         type: 'string',
         describe: 'proxy destination serer url',
         group: PROXY_GROUP,
-        default: 'https://my_external_server.com:443',
     })
     .options('proxy.secure', {
         alias: ['secure'],
         type: 'boolean',
         group: PROXY_GROUP,
-        default: false,
     })
     .options('proxy.changeOrigin', {
         type: 'boolean',
         describe: 'Proxy changes origin of requests',
         group: PROXY_GROUP,
-        default: false,
+    })
+    .options('proxy.disabled', {
+        type: 'boolean',
+        describe: 'Disable proxy, only already cached files will be served.',
+        group: PROXY_GROUP,
     })
     .options('log', {
         type: 'string',

@@ -1,12 +1,11 @@
-const logger = require('../logger');
+const config = require('../config');
+const LOGGER = require('../logger')(config);
 
-module.exports = function (config, proxy) {
-    const LOGGER = logger(config);
-
+module.exports = function (confProxy, proxyServer) {
     return function middleware(req, res) {
         if(!req.mock.mockExists) {
             LOGGER.debug(`Sending: ${req.method} ${req.url} ${req.mock.hash}`);
-            proxy.web(req, res);
+            proxyServer.web(req, res);
         }
     };
 };

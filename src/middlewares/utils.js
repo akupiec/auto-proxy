@@ -5,7 +5,7 @@ const glob = require('glob');
 
 function encodeBuffer(res, buffer) {
     const encoding = res.getHeader('content-encoding');
-    if(encoding.toLowerCase() === 'gzip') {
+    if(encoding && encoding.toLowerCase() === 'gzip') {
         return zlib.gunzipSync(buffer); //gzip checker needed
     }
     return buffer;

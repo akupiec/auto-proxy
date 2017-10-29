@@ -1,9 +1,8 @@
 const fs = require('fs');
-const logger = require('../logger');
+const config = require('../config');
+const LOGGER = require('../logger')(config);
 
-module.exports = function (config) {
-    const LOGGER = logger(config);
-
+module.exports = function () {
     return function middleware(req, res, next) {
         if(req.mock.mockExists) {
             LOGGER.debug('Sending from mock', req.mock.filePath);

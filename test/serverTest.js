@@ -3,15 +3,18 @@
 const assert = require('assert');
 const request = require('supertest');
 
+const config = require('../src/config');
 const fakeConfig = {
     mock: './FAKE_MOCK_DIR/',
     server: {
-        port: 8080,
+        port: 9999,
     },
     proxies: [{
         contextPath: '/api',
     }],
+    log: 'ALL',
 };
+Object.assign(config, fakeConfig);
 
 describe('loading express', function () {
     let server, proxy;
@@ -21,7 +24,7 @@ describe('loading express', function () {
                 res.send(200, 'REVERSE RESPONSE SUCCESS');
             },
         };
-        server = require('../src/server')(proxy, fakeConfig, console);
+        server = require('../src/server')(proxy);
     });
     afterEach(function () {
         server.close();

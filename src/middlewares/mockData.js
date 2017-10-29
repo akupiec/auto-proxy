@@ -1,5 +1,6 @@
 const crc = require('crc');
 const path = require('path');
+const config = require('../config');
 
 function queryToString(obj) {
     return Object.keys(obj).map(key => `${key}=${obj[key]}`).join('&');
@@ -13,7 +14,7 @@ let parseFileName = function (contextPath, url, hash) {
     return url.replace(contextPath, '').replace(/\?.*/, '').replace(/^\//g, '').replace(/\//g, '_') + hash;
 };
 
-module.exports = function (config) {
+module.exports = function () {
     return function middleware(req, res, next) {
         const reqBody = req.body ? req.body.toString() : '' ;
         const strQuery = queryToString(req.query);

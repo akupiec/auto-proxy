@@ -3,7 +3,8 @@ const argv = require('./argv');
 const path = require('path');
 const LOGGER = require('./logger')(argv);
 
-let configFileData = {};
+const defaultConfig = require('../bin/auto-proxy.config');
+let configFileData;
 if (argv.config) {
     let fileName;
     try {
@@ -14,7 +15,6 @@ if (argv.config) {
         LOGGER.fatal(`No config file ${fileName} was found, this will cause severe errors!!.`);
     }
 }
-const config = deepAssign({}, argv, configFileData);
-config.server.path = path.normalize(process.cwd() + '/' + argv.server.path);
+const config = deepAssign(defaultConfig, configFileData, argv);
 
 module.exports = config;
