@@ -1,5 +1,9 @@
 # Auto Proxy
 
+[![Travis](https://img.shields.io/travis/akupiec/auto-proxy.svg)](https://travis-ci.org/akupiec/auto-proxy.svg?branch=master)
+[![license](https://img.shields.io/github/license/akupiec/auto-proxy.svg)]()
+
+
 Auto caching reverse proxy, with partial static server -
 highly useful for testing UI applications when backed is slow or temporary unavailable.
 

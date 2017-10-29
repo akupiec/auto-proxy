@@ -1,5 +1,4 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mockData = require('./middlewares/mockData');
 const validateCache = require('./middlewares/validateCache');
@@ -8,19 +7,21 @@ const reverseProxy = require('./middlewares/reverseProxy');
 const mockGetter = require('./middlewares/mockGeter');
 const mockSaver = require('./middlewares/mockSaver');
 const config = require('./config');
+const path = require('path');
 const LOGGER = require('./logger')(config);
 
 module.exports = function (proxyServer) {
     const app = express();
-    app.use(cookieParser());
     app.use(bodyParser.raw({type: '*/*'}));
 
     if (config.server.staticSource) {
+        LOGGER.info(`Binding static content on: ${config.server.staticSource}`);
         app.use(config.server.staticSource, express.static(config.server.staticPath));
     }
 
     config.proxies.map(confProxy => {
         LOGGER.info(`Binding proxy on: ${confProxy.contextPath}`);
+        confProxy.cache = confProxy.cache || {};
 
         app.use(confProxy.contextPath, mockData(confProxy));
         app.use(confProxy.contextPath, validateCache(confProxy));
@@ -31,9 +32,9 @@ module.exports = function (proxyServer) {
     });
 
     if (config.server.fallback) {
-        LOGGER.info(`Binding fallback: ${config.server.staticPath}${config.server.fallback}`);
+        LOGGER.info(`Binding fallback: ${path.resolve(config.server.fallback)}`);
         app.all('/*', function (req, res) {
-            res.sendFile(config.server.fallback, {root: config.server.staticPath});
+            res.sendFile(path.resolve(config.server.fallback));
         });
     }
 

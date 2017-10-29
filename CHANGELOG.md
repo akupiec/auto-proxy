@@ -1,5 +1,5 @@
 # Changelog
 
-### 0.0.1 (in progress)
+### 0.0.1
 
 - changes in 0.0.1.... what can they be ?

@@ -10,7 +10,7 @@ const argv = yargs.usage('$0 cli usage:')
         describe: 'Path to the config file, accepts js|json. All cli options can be override by configuration file.',
         type: 'string',
         group: GENERAL_GROUP,
-        default: 'auto-proxy.json',
+        // default: 'auto-proxy.json',
     })
     .options('mock', {
         alias: 'm',
@@ -36,23 +36,19 @@ const argv = yargs.usage('$0 cli usage:')
     })
     .options('proxy.secure', {
         alias: ['secure'],
-        type: 'boolean',
         group: PROXY_GROUP,
     })
     .options('proxy.changeOrigin', {
-        type: 'boolean',
         describe: 'Proxy changes origin of requests',
         group: PROXY_GROUP,
     })
     .options('proxy.disabled', {
-        type: 'boolean',
         describe: 'Disable proxy, only already cached files will be served.',
         group: PROXY_GROUP,
     })
     .options('log', {
         type: 'string',
         describe: 'logging level [ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF]',
-        default: 'ALL',
     })
     .help('help')
     .version()

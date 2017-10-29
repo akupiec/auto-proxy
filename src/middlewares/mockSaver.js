@@ -14,9 +14,9 @@ function mkdirSync(filePath) {
     fs.mkdirSync(dirName);
 }
 
-module.exports = function () {
+module.exports = function (proxyConfig) {
     return function middleware(req, res, next) {
-        if(req.mock.mockExists) {
+        if(req.mock.mockExists || !proxyConfig.cache.enabled) {
             next();
             return;
         }
