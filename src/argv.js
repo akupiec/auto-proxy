@@ -3,6 +3,7 @@ const yargs = require('yargs');
 
 const GENERAL_GROUP = 'General:';
 const SERVER_GROUP = 'Local Server:';
+const PROXY_GROUP = 'Proxy Server:';
 const argv = yargs.usage('$0 cli usage:')
     .option('config', {
         alias: 'c',
@@ -17,15 +18,6 @@ const argv = yargs.usage('$0 cli usage:')
         default: 'mocks',
         group: GENERAL_GROUP,
     })
-    .options('cacheOnly', {
-        describe: 'will block connection to all external servers, only cached mocks will be provided',
-        default: false,
-        group: GENERAL_GROUP,
-    })
-    .options('autoMocking', {
-        describe: 'All responses will be automatically cached in mock directory',
-        default: true,
-    })
     .options('server.port', {
         alias: ['port'],
         type: 'number',
@@ -33,40 +25,29 @@ const argv = yargs.usage('$0 cli usage:')
         group: SERVER_GROUP,
         default: 8088,
     })
-    .options('server.target', {
+    .options('server.fallback', {
+        type: 'string',
+        describe: 'File served by default when nothing else fits ex. local index.html',
+        group: SERVER_GROUP,
+    })
+    .options('proxy.target', {
         alias: ['target'],
         type: 'string',
         describe: 'proxy destination serer url',
-        group: SERVER_GROUP,
+        group: PROXY_GROUP,
         default: 'https://my_external_server.com:443',
     })
-    .options('server.ignoreSSL', {
-        alias: ['ignoreSSL'],
+    .options('proxy.secure', {
+        alias: ['secure'],
         type: 'boolean',
-        group: SERVER_GROUP,
+        group: PROXY_GROUP,
         default: false,
     })
-    .options('server.path', {
-        type: 'string',
-        describe: 'Static serving path',
-        group: SERVER_GROUP,
-        default: '/',
-    })
-    .options('server.fallback', {
-        type: 'string',
-        describe: 'file served by default when nothing else fits',
-        group: SERVER_GROUP,
-    })
-    .options('server.changeOrigin', {
+    .options('proxy.changeOrigin', {
         type: 'boolean',
         describe: 'Proxy changes origin of requests',
-        group: SERVER_GROUP,
+        group: PROXY_GROUP,
         default: false,
-    })
-    .options('proxies', {
-        type: 'array',
-        describe: 'required, defining sources and target proxy api',
-        group: 'Proxies:',
     })
     .options('log', {
         type: 'string',

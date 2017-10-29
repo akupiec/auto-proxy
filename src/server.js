@@ -1,5 +1,3 @@
-/* global __dirname process*/
-
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -18,8 +16,8 @@ module.exports = function (proxyServer, config) {
     app.use(cookieParser());
     app.use(bodyParser.raw({type: '*/*'}));
 
-    if(config.server.source) {
-        app.use(config.server.source, express.static(config.server.path));
+    if (config.server.staticSource) {
+        app.use(config.server.staticSource, express.static(config.server.staticPath));
     }
 
     config.proxies.map(proxy => {
@@ -33,15 +31,14 @@ module.exports = function (proxyServer, config) {
         app.all(proxy.contextPath + '/*', reverseProxy(config, proxyServer));
     });
 
-
     if (config.server.fallback) {
-        LOGGER.info(`Binding fallback: ${config.server.path}${config.server.fallback}`);
+        LOGGER.info(`Binding fallback: ${config.server.staticPath}${config.server.fallback}`);
         app.all('/*', function (req, res) {
-            res.sendFile(config.server.fallback, {root: config.server.path});
+            res.sendFile(config.server.fallback, {root: config.server.staticPath});
         });
     }
-    
+
     return app.listen(config.server.port, function () {
-        LOGGER.info(`LOCAL PROXY SERVER: listening on http://localhost:${config.server.port} and proxing: ${config.server.target} \n\n`);
+        LOGGER.info(`LOCAL PROXY SERVER: listening on http://localhost:${config.server.port} and proxing: ${config.proxy.target} \n\n`);
     });
 };
