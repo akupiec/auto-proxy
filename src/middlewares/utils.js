@@ -1,7 +1,8 @@
 const zlib = require('zlib');
 const mime = require('mime-types');
 const glob = require('glob');
-
+const config = require('../config');
+const LOGGER = require('../logger')(config);
 
 function encodeBuffer(res, buffer) {
     const encoding = res.getHeader('content-encoding');
@@ -18,7 +19,14 @@ function getExtension(res) {
 }
 
 const cacheFileResolve = (filePath) => {
-    let possibleTable = glob.sync(filePath + '.*');
+    const evilFilePath = filePath.replace(/#.*/, '#666');
+    let possibleTable = glob.sync(evilFilePath + '.*');
+    if (possibleTable.length) {
+        LOGGER.warn('Evil file found! Ignoring request for: ', filePath);
+        return possibleTable[0];
+    }
+
+    possibleTable = glob.sync(filePath + '.*');
     return possibleTable.length ? possibleTable[0] : undefined;
 };
 

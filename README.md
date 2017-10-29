@@ -16,33 +16,35 @@ Moreover you're propably looking for something else.
 1. run by `auto-proxy -c config.json`
 
 ## Configuration
-
-```js
-{
-  "server": { //local server configuration block
-    "port": 8080 // [required]
-    "staticSource": "/public", // sever have possibility to serve local content - defines content url
-    "staticPath": "../assets/public", // static content will be served form this directory
-    "fallback": "index.html" // if request will not it elsewhere this file will be served
-  },
-  "proxy": { //reverse proxy configuration block
-    "target": "http://google.com", // [required] proxy target
-    "changeOrigin": true,
-    "secure": true
-  },
-  "proxies": [ // ... it's kind'of required block
-    {
-      "contextPath": "/services", // [required] poxed url path to target
-      "cache": true, //TODO: save new cache files
-      "meta": false, // TODO: store meta to all cached files not only for problematic ones
-      "useCache": true, //TODO: if request is already cached, mock will be served
-      "madCache": true, // TODO: all request even 404 will be cached as success
-    }
-  ]
-}
-
-```
+All necessary information's for creating your own config can be found in
+[default configuration file](bin/auto-proxy.config.js)
 
 ## CLI
 
-Everything is described in `auto-proxy --help`
+All commands are described in build in help `auto-proxy --help`.
+
+Cli parameters have higher priority then configuration file
+ex `auto-proxy --server.port 8888` will run server on port 8888 ignoring
+config file setting for port
+
+## Cache rules
+
+Example file cache can be saved in file:
+./mocksDir/rnc-webservices_services/GET/system_configuration_#824ac3d0.json
+
+Where:
+```
+╔════════════╦═══════════════════════════╦═════════╦══════════════════════╦═══════════╦═══════╗
+║  mockDir   ║    proxy contextPath      ║  method ║       full url       ║   hash    ║  ext  ║
+╠════════════╬═══════════════════════════╬═════════╬══════════════════════╬═══════════╬═══════╣
+║ ./mocksDir ║ /rnc-webservices_services ║ / GET / ║ system_configuration ║ #824ac3d0 ║ .json ║
+╚════════════╩═══════════════════════════╩═════════╩══════════════════════╩═══════════╩═══════╝
+```
+
+* hash - generated crc code, based on query and payload request or plain text (depends on configuration)
+* extension - based on response content-type header (ignored by cache validator)
+
+**NOTES**
+
+There is possibility to ignore hash and always return same file,
+just rename ones generated file and set hash to *evil one* (#666)
