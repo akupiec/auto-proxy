@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "auto-proxy",
-  "version": "0.0.1",
+  "name": "mad-proxy",
+  "version": "0.0.2",
   "description": "Auto caching reverse prxy, with partial static server",
-  "main": "bin/auto-proxy",
+  "main": "bin/mad-proxy",
   "directories": {
     "test": "test"
   },
@@ -13,30 +13,28 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akupiec/auto-proxy.git"
+    "url": "git+https://github.com/akupiec/mad-proxy.git"
   },
   "keywords": [
-    "auto-proxy",
+    "mad-proxy",
     "node",
     "proxy",
-    "mocking",
-    "proxy",
-    "mocks",
-    "caching",
-    "proxy",
+    "reverse-proxy",
+    "proxy-server",
+    "proxy-cache",
     "cache"
   ],
   "author": "akupiec",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/akupiec/auto-proxy/issues"
+    "url": "https://github.com/akupiec/mad-proxy/issues"
   },
-  "homepage": "https://github.com/akupiec/auto-proxy#readme",
+  "homepage": "https://github.com/akupiec/mad-proxy#readme",
   "engines": {
     "node": ">=6.9.2"
   },
   "bin": {
-    "auto-proxy": "bin/auto-proxy"
+    "mad-proxy": "bin/mad-proxy"
   },
   "scripts": {
     "lint": "eslint .",

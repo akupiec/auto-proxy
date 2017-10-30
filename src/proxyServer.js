@@ -8,7 +8,7 @@ module.exports = function proxyServer(config) {
     });
 
     apiProxy.on('proxyReq', function(proxyReq, req) {
-        if(req.body) {
+        if(req.body && req.body instanceof Buffer) {
             proxyReq.write(req.body.toString());
         }
     });

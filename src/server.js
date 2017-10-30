@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+// const cookieParser = require('cookie-parser');
 const mockData = require('./middlewares/mockData');
 const validateCache = require('./middlewares/validateCache');
 const bodyDataInterceptor = require('./middlewares/bodyDataInterceptor');
@@ -12,6 +13,7 @@ const LOGGER = require('./logger')(config);
 
 module.exports = function (proxyServer) {
     const app = express();
+    // app.use(cookieParser());
     app.use(bodyParser.raw({type: '*/*'}));
 
     if (config.server.staticSource) {
@@ -28,7 +30,7 @@ module.exports = function (proxyServer) {
         app.use(confProxy.contextPath, bodyDataInterceptor(confProxy));
         app.use(confProxy.contextPath, mockSaver(confProxy));
         app.use(confProxy.contextPath, mockGetter(confProxy));
-        app.all(confProxy.contextPath + '/*', reverseProxy(confProxy, proxyServer));
+        app.all(confProxy.contextPath + '(/*)?', reverseProxy(confProxy, proxyServer));
     });
 
     if (config.server.fallback) {

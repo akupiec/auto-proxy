@@ -3,7 +3,7 @@ const argv = require('./argv');
 const path = require('path');
 const LOGGER = require('./logger')(argv);
 
-const defaultConfig = require('../bin/auto-proxy.config');
+const defaultConfig = require('../bin/mad-proxy.config');
 let configFileData;
 if (argv.config) {
     let fileName;

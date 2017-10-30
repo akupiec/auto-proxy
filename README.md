@@ -1,7 +1,7 @@
-# Auto Proxy
+# Mad Proxy
 
-[![Travis](https://img.shields.io/travis/akupiec/auto-proxy.svg)](https://travis-ci.org/akupiec/auto-proxy.svg?branch=master)
-[![license](https://img.shields.io/github/license/akupiec/auto-proxy.svg)]()
+[![Travis](https://img.shields.io/travis/akupiec/mad-proxy.svg)](https://travis-ci.org/akupiec/mad-proxy.svg?branch=master)
+[![license](https://img.shields.io/github/license/akupiec/mad-proxy.svg)]()
 
 
 Auto caching reverse proxy, with partial static server -
@@ -15,20 +15,22 @@ Moreover you're propably looking for something else.
 
 1. check npm if there is anything better, if not - then you may proceed. (if there is let me known ^_^ )
 1. manually download *.tgz file release.
-1. install package by npm/yarn ex: `npm install ./path/auto-proxy-0.0.1.tgz`
+1. install package by npm/yarn ex: `npm install URL_TO_RELEASE`
 1. create configuration file (yes it's required to create one by hand)
-1. run by `auto-proxy -c config.json`
+1. run by `mad-proxy -c config.js`
 
 ## Configuration
 All necessary information's for creating your own config can be found in
-[default configuration file](bin/auto-proxy.config.js)
+[default configuration file](bin/mad-proxy.config.js)
+
+NOTE: Application can parse *.js or *.json configuration file.
 
 ## CLI
 
-All commands are described in build in help `auto-proxy --help`.
+All commands are described in build in help `mad-proxy --help`.
 
 Cli parameters have higher priority then configuration file
-ex `auto-proxy --server.port 8888` will run server on port 8888 ignoring
+ex `mad-proxy --server.port 8888` will run server on port 8888 ignoring
 config file setting for port
 
 ## Cache rules

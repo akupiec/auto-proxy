@@ -10,7 +10,7 @@ const argv = yargs.usage('$0 cli usage:')
         describe: 'Path to the config file, accepts js|json. All cli options can be override by configuration file.',
         type: 'string',
         group: GENERAL_GROUP,
-        // default: 'auto-proxy.json',
+        // default: 'mad-proxy.json',
     })
     .options('mock', {
         alias: 'm',
