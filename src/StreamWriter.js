@@ -9,8 +9,13 @@ module.exports = class StreamWriter extends stream.Writable {
     }
 
     write(buf) {
-        this.raw.push(buf);
-        this.bytes += buf.length;
+        if(buf instanceof Buffer) {
+            this.raw.push(buf);
+            this.bytes += buf.length;
+        } else {
+            const chunk = Buffer.from(buf);
+            this.write(chunk);
+        }
     }
 
     end(buf) {

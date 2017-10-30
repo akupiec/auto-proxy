@@ -9,38 +9,52 @@ const mockGetter = require('./middlewares/mockGeter');
 const mockSaver = require('./middlewares/mockSaver');
 const config = require('./config');
 const path = require('path');
+const fs = require('fs');
 const LOGGER = require('./logger')(config);
+
+
+function isUrl(target = '') {
+    return target.match(/https?:\/\/.*/i);
+}
+function isDirectory(target = '') {
+    return fs.lstatSync(path.normalize(target)).isDirectory();
+}
+
+function isFile(target = '') {
+    return fs.lstatSync(path.normalize(target)).isFile();
+}
 
 module.exports = function (proxyServer) {
     const app = express();
     // app.use(cookieParser());
     app.use(bodyParser.raw({type: '*/*'}));
 
-    if (config.server.staticSource) {
-        LOGGER.info(`Binding static content on: ${config.server.staticSource}`);
-        app.use(config.server.staticSource, express.static(config.server.staticPath));
-    }
-
     config.proxies.map(confProxy => {
-        LOGGER.info(`Binding proxy on: ${confProxy.contextPath}`);
-        confProxy.cache = confProxy.cache || {};
+        if(isUrl(confProxy.target)) {
+            LOGGER.info(`Binding reverse proxy on: ${confProxy.path} to ${confProxy.target}${confProxy.path}`);
+            app.use(confProxy.path, mockData(confProxy));
+            app.use(confProxy.path, validateCache(confProxy));
+            app.use(confProxy.path, bodyDataInterceptor(confProxy));
+            app.use(confProxy.path, mockSaver(confProxy));
+            app.use(confProxy.path, mockGetter(confProxy));
+            app.all(confProxy.path + '(/*)?', reverseProxy(confProxy, proxyServer));
 
-        app.use(confProxy.contextPath, mockData(confProxy));
-        app.use(confProxy.contextPath, validateCache(confProxy));
-        app.use(confProxy.contextPath, bodyDataInterceptor(confProxy));
-        app.use(confProxy.contextPath, mockSaver(confProxy));
-        app.use(confProxy.contextPath, mockGetter(confProxy));
-        app.all(confProxy.contextPath + '(/*)?', reverseProxy(confProxy, proxyServer));
+        } else if (isDirectory(confProxy.target)) {
+            const target = path.join(process.cwd(), confProxy.path, confProxy.target);
+            LOGGER.info(`Binding static hosting on: ${confProxy.path} to ${target}`);
+            app.use(confProxy.path, express.static(confProxy.target));
+        } else if (isFile(confProxy.target)) {
+            const target = path.join(process.cwd(), confProxy.path, confProxy.target);
+            LOGGER.info(`Binding static hosting on: ${confProxy.path} to ${target}`);
+            app.use(confProxy.path, function(req, res) {
+                res.sendFile(target);
+            });
+        } else {
+            LOGGER.error(`Can not bind host on: ${confProxy.path} to ${confProxy.target}, target should be: url, local directory or local file`);
+        }
     });
 
-    if (config.server.fallback) {
-        LOGGER.info(`Binding fallback: ${path.resolve(config.server.fallback)}`);
-        app.all('/*', function (req, res) {
-            res.sendFile(path.resolve(config.server.fallback));
-        });
-    }
-
     return app.listen(config.server.port, function () {
-        LOGGER.info(`LOCAL PROXY SERVER: listening on http://localhost:${config.server.port} and proxing: ${config.proxy.target} \n\n`);
+        LOGGER.info(`LOCAL PROXY SERVER: listening on http://localhost:${config.server.port}\n\n`);
     });
 };

@@ -3,20 +3,18 @@
 module.exports = {
     server: { //local server configuration block
         port: 8088, // [required]
-        staticSource: '/public', // sever have possibility to serve local content - defines content url
-        staticPath: '../assets/public', // static content will be served form this directory
-        fallback: '../assets/public/index.html', // if request will not it elsewhere this file will be served
     },
     proxy: { //reverse proxy configuration block
-        target: 'http://google.com', // [required] proxy target
         changeOrigin: true,
         secure: true,
-        disabled: false, //Disable proxy, only already cached files will be served
+        disabled: false, //Disable proxy, only locally available files will be served
     },
     proxies: [ // ... it's kind'of required block
         {
-            contextPath: '/services', // [required] poxed url path to target
-
+            path: '/services', // [required] poxed url path to target
+            target: 'http://google.com', // [required] proxy target
+                                        // This basally mean all request done to http://localhost:8088/services/*
+                                        // will be delegated to http://google.com/services/*
             cache: { //cache configuration block
                 enabled: true, //save new cache files & serve them when match request
                 meta: false, //TODO: store request/response meta (headers, resp code)
@@ -29,7 +27,19 @@ module.exports = {
                 },
             },
         },
+        {
+            path: '/public',
+            target:  '../assets/public', //target can point to local directory as well
+                                         //this will work as simply static server
+            cache: {
+                enabled: false, //sorry but caching local files is not supported at the moment
+            },
+        },
+        {
+            path: '/',
+            target: '../other_public/index.html', // serving single file ? wny not ?
+        },
     ],
     mock: './mockDir', //directory for cached files
-    log: 'ALL', // logging level [ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF]
+    log: 'DEBUG', // logging level [ALL, DEBUG, INFO, WARN, ERROR, FATAL, OFF]
 };

@@ -2,8 +2,11 @@
 
 ### 0.0.2
 
-- OTHER: project renamed due to npm naming problem
+- **BRAKING CHANGE**: redesigned configuration
+- **BRAKING CHANGE**: project renamed due to npm naming problem
 - FIX: problem with empty body
+- FIX: caching simple responses
+- OTHER: basic config validation
 
 ### 0.0.1
 

@@ -9,7 +9,10 @@ module.exports = function (confProxy, proxyServer) {
         }
         if(!req.mock.mockExists) {
             LOGGER.debug(`Sending: ${req.method} ${req.url} ${req.mock.hash}`);
-            proxyServer.web(req, res);
+            proxyServer.web(req, res, {target: confProxy.target}, function (e) {
+                LOGGER.fatal('Error occurred: Propably destination server is unavailable:\n', confProxy.target, req.originalUrl);
+                LOGGER.error(e);
+            });
         }
     };
 };

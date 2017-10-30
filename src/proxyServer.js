@@ -2,7 +2,6 @@ const httpProxy = require('http-proxy');
 
 module.exports = function proxyServer(config) {
     const apiProxy = httpProxy.createProxyServer({
-        target: config.proxy.target,
         secure: config.proxy.secure,
         changeOrigin: config.proxy.changeOrigin,
     });
