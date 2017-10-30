@@ -13,7 +13,7 @@ module.exports = {
         {
             path: '/services', // [required] poxed url path to target
             target: 'http://google.com', // [required] proxy target
-                                        // This basally mean all request done to http://localhost:8088/services/*
+                                        // This mean all request done to http://localhost:8088/services/*
                                         // will be delegated to http://google.com/services/*
             cache: { //cache configuration block
                 enabled: true, //save new cache files & serve them when match request

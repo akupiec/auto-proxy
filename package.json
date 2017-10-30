@@ -1,8 +1,7 @@
 {
-  "private": true,
   "name": "mad-proxy",
   "version": "0.0.2",
-  "description": "Auto caching reverse prxy, with partial static server",
+  "description": "Auto caching reverse proxy, useful when quick mad mocking is required",
   "main": "bin/mad-proxy",
   "directories": {
     "test": "test"

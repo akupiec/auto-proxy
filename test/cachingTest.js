@@ -12,7 +12,8 @@ describe('caching', function () {
     beforeEach(function () {
         fakeConfig({
             proxies: [{
-                contextPath: '/api',
+                path: '/api',
+                target: 'http://google.com',
                 cache: {
                     enabled: true,
                 },

@@ -1,21 +1,29 @@
 # Mad Proxy
 
-[![Travis](https://img.shields.io/travis/akupiec/mad-proxy.svg)](https://travis-ci.org/akupiec/mad-proxy.svg?branch=master)
+[![Travis](https://img.shields.io/travis/akupiec/mad-proxy.svg)](https://travis-ci.org/akupiec/mad-proxy)
 [![license](https://img.shields.io/github/license/akupiec/mad-proxy.svg)]()
 
 
-Auto caching reverse proxy, with partial static server -
-highly useful for testing UI applications when backed is slow or temporary unavailable.
+Auto caching reverse proxy, useful when quick mad mocking is required.
+Basic idea in mad proxy is to simplify and speed up development process of frontend applications.
+
+**Made for development purposes only !**
+
+Mad Proxy combines reverse proxy functionality with mocking server.
+Usually mocking server is too time consuming to maintain,
+but on the other hand it is  really helpful when there is  a need to develop new functionality and backend isn't ready yet.
+
+That's why idea to find auto caching reverse proxy came in mind, but it was all in vain (there already is an api-mock-proxy but's too simple in general term, and have quite few other problems)
+
+
+**WARNING** This app is in development snapshot and propably will never be released.
 
 ## Installation Steps
 
-Currently I do not have any plans for npm release, or any kind long term support
-(At least before finishing version 1.0.0).
-Moreover you're propably looking for something else.
+Everything before 1.0.0 should be considered as alpha version.
+Breaking changes can happen in minor updates, check [CHANGELOG](CHANGELOG.md) for details.
 
-1. check npm if there is anything better, if not - then you may proceed. (if there is let me known ^_^ )
-1. manually download *.tgz file release.
-1. install package by npm/yarn ex: `npm install URL_TO_RELEASE`
+1. install package by npm/yarn ex: `npm install mad-proxy`
 1. create configuration file (yes it's required to create one by hand)
 1. run by `mad-proxy -c config.js`
 
@@ -52,5 +60,5 @@ Where:
 
 **NOTES**
 
-There is possibility to ignore hash and always return same file,
-just rename ones generated file and set hash to *evil one* (#666)
+There is a possibility to ignore hash and always return same file,
+just rename generated one and set hash to *evil one* (#666)

@@ -10,7 +10,9 @@ describe('loading express', function () {
     beforeEach(function () {
         fakeConfig({
             proxies: [{
-                contextPath: '/api',
+                path: '/api',
+                target: 'http://google.com',
+                cache: {},
             }],
         });
         proxyServer = {
