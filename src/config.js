@@ -25,6 +25,7 @@ function extendWithDefaultValues(config) {
     if (config.proxies) {
         config.proxies = config.proxies.map((proxyConf) => {
             proxyConf.cache = proxyConf.cache || {enabled: false};
+            proxyConf.cache.meta = proxyConf.cache.meta || 'NONE';
             return proxyConf;
         });
     }
@@ -54,6 +55,11 @@ function validateConfig(config) {
         }
         if (proxyConf.path.match(/.+\/$|\*$/)) {
             LOGGER.error(`Invalid config file. 'config.proxies[${idx}].path=${proxyConf.path}' shouldn't END with slash '\\' or asterisk '*', mad-proxy will add one for you.`);
+            isValid = false;
+        }
+        const META = ['ALL', 'ERRORS', 'OPTIONAL', 'NONE'];
+        if (META.indexOf(proxyConf.cache.meta) === -1) {
+            LOGGER.error(`Invalid config file. 'config.proxies[${idx}].meta' have to be one of: `, META);
             isValid = false;
         }
     });

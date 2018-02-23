@@ -14,18 +14,35 @@ function mkdirSync(filePath) {
     fs.mkdirSync(dirName);
 }
 
+let bodySaver = (req, res) => {
+    const buffer = utils.encodeBuffer(res, res.bodyStream.body);
+    let fileName = req.mock.filePath + utils.getExtension(res);
+    fs.writeFile(fileName, buffer, (e) => {
+        if (e) LOGGER.fatal(e);
+        LOGGER.debug(`Saved  : ${fileName}      | Bytes: ${buffer.length}`);
+    });
+};
+
+let metaSaver = (req, res) => {
+    // const buffer = utils.encodeBuffer(res, res.bodyStream.body);
+    let fileName = req.mock.filePath + utils.getExtension(res) + '.meta';
+    fs.writeFile(fileName, buffer, (e) => {
+        if (e) LOGGER.fatal(e);
+        LOGGER.debug(`Saved  : ${fileName}      | Bytes: ${buffer.length}`);
+    });
+};
+
 module.exports = function (proxyConfig) {
     return function middleware(req, res, next) {
         if(req.mock.mockExists || !proxyConfig.cache.enabled) {
             next();
             return;
         }
+
         res.bodyStream.on('finish', () => {
             mkdirSync(req.mock.filePath);
-            const buffer = utils.encodeBuffer(res, res.bodyStream.body);
-            let fileName = req.mock.filePath + utils.getExtension(res);
-            fs.writeFileSync(fileName, buffer);
-            LOGGER.debug(`Saved  : ${fileName}      | Bytes: ${buffer.length}`);
+            bodySaver(req, res);
+            metaSaver(req, res);
         });
         next();
     };

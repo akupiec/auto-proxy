@@ -17,23 +17,26 @@ module.exports = {
                                         // will be delegated to http://google.com/services/*
             cache: { //cache configuration block
                 enabled: true, //save new cache files & serve them when match request
-                meta: false, //TODO: store request/response meta (headers, resp code)
-                             //When set to false all cached files will be served with 200 response code with minimum meta data
-                hashing: true, //TODO: file names will contain crc32 hash based on query & payload request, instead of plain text
-                madCache: true, //TODO: cache all request's (even 404) will be cached as success (200)
+                meta: 'NONE', // Responsible for storing request/response meta data.
+                              // Response section will be used each time cached file will be used.
+                              // 'NONE' - all cached files will ack like successful responses (code 200).
+                              // 'OPTIONAL' - new meta won't be stored but will be used if present.
+                              // 'ERRORS' - meta will be stored only for responses codes different then 200
+                              // 'ALL' - each new file will be saved with corresponding meta file
+                // hashing: true, //TODO: file names will contain crc32 hash based on query & payload request, instead of plain text
+                // madCache: true, //TODO: cache all request's (even 404) will be cached as success (200)
                                 //Requires disabled meta storing
-                filtering: { //describes what should be cached
-                    //TODO
-                },
+                // filtering: { //describes what should be cached
+                //     //TODO
+                // },
             },
         },
         {
             path: '/public',
             target:  '../assets/public', //target can point to local directory as well
                                          //this will work as simply static server
-            cache: {
-                enabled: false, //sorry but caching local files is not supported at the moment
-            },
+            // cache: { //sorry but caching local files is not supported
+            // },
         },
         {
             path: '/',
