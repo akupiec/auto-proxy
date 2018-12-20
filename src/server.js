@@ -54,6 +54,11 @@ module.exports = function (proxyServer) {
         }
     });
 
+    // app.use(function (err, req, res, next) {
+    //     console.error(err.stack);
+    //     res.status(500).send('Something broke!');
+    // });
+
     return app.listen(config.server.port, function () {
         LOGGER.info(`LOCAL PROXY SERVER: listening on http://localhost:${config.server.port}\n\n`);
     });

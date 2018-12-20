@@ -37,7 +37,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "unit": "mocha",
+    "unit": "jest",
     "test": "npm run lint && npm run unit"
   },
   "dependencies": {
@@ -53,8 +53,7 @@
   },
   "devDependencies": {
     "eslint": "^4.10.0",
-    "mocha": "^4.0.1",
-    "mock-fs": "^4.4.2",
+    "jest": "^23.6.0",
     "supertest": "^3.0.0"
   }
 }

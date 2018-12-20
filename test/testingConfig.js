@@ -1,4 +1,5 @@
-const config = require('../src/config');
+const defaultConfig = require('../bin/mad-proxy.config');
+defaultConfig.proxies = [];
 const fakeConfig = {
     mock: './FAKE_MOCK_DIR/',
     server: {
@@ -6,8 +7,5 @@ const fakeConfig = {
     },
     log: 'ALL',
 };
-Object.assign(config, fakeConfig);
 
-module.exports = function (newConfig) {
-    Object.assign(config, newConfig);
-};
+module.exports = Object.assign({}, defaultConfig, fakeConfig);
