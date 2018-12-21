@@ -11,7 +11,7 @@ jest.mock('fs', () => ({
     writeFileSync: jest.fn(),
 }));
 
-jest.mock('../src/middlewares/proxyServer', () => () => {
+jest.mock('../src/middlewares/proxyServer', () => {
     return {
         web: (req, res) => {
             res.status(200).send('OK');

@@ -1,6 +1,6 @@
 const config = require('../config');
 const LOGGER = require('../logger');
-const proxyServer = require('./proxyServer')(config);
+const proxyServer = require('./proxyServer');
 
 module.exports = function (confProxy) {
     return function reverseProxy(req, res) {
