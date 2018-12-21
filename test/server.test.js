@@ -7,7 +7,7 @@ const reverseProxy = require('../src/middlewares/reverseProxy');
 
 jest.mock('../src/config', () => require('./testingConfig'));
 jest.mock('fs');
-jest.mock('../src/logger', () => () => ({
+jest.mock('../src/logger', () => ({
     info: jest.fn(),
 }));
 jest.mock('../src/middlewares/reverseProxy');
@@ -57,33 +57,33 @@ describe('server proxy as URL', () => {
             middlewares = null;
         });
 
-        it('bodyDataInterceptor', function testSlash() {
+        it('bodyDataInterceptor', function () {
             expect(middlewares).toContain('bodyDataInterceptor');
         });
 
-        it('mockData', function testSlash() {
+        it('mockData', function () {
             expect(middlewares).toContain('mockData');
         });
 
-        it('mockGeter', function testSlash() {
+        it('mockGeter', function () {
             expect(middlewares).toContain('mockGeter');
         });
 
-        it('mockSaver', function testSlash() {
+        it('mockSaver', function () {
             expect(middlewares).toContain('mockSaver');
         });
 
-        it('validateCache', function testSlash() {
+        it('validateCache', function () {
             expect(middlewares).toContain('validateCache');
         });
 
-        it('mockSaver', function testSlash() {
+        it('mockSaver', function () {
             expect(middlewares).toContain('mockSaver');
         });
     });
 
     describe('delegating all', function () {
-        it('reverseProxy', function testSlash() {
+        it('reverseProxy', function () {
             server();
             expect(all.mock.calls.length).toBe(1);
             expect(reverseProxy.mock.calls.length).toBe(1);

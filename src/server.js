@@ -10,7 +10,7 @@ const mockSaver = require('./middlewares/mockSaver');
 const config = require('./config');
 const path = require('path');
 const fs = require('fs');
-const LOGGER = require('./logger')(config);
+const LOGGER = require('./logger');
 
 
 function isUrl(target = '') {

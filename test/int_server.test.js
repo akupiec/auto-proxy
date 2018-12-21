@@ -38,7 +38,7 @@ describe('integration express', function () {
         fs.writeFileSync.mockReset();
     });
 
-    it('responds to reverse proxyServer', function testSlash() {
+    it('responds to reverse proxyServer', function () {
         return request(server)
             .get('/api/test')
             .expect(200)
@@ -47,7 +47,7 @@ describe('integration express', function () {
             });
     });
 
-    it('should create cached file', function testSlash() {
+    it('should create cached file', function () {
         return request(server)
             .get('/api/abb-cc')
             .expect(200)

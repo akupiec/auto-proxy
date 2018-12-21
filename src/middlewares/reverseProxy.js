@@ -1,5 +1,5 @@
 const config = require('../config');
-const LOGGER = require('../logger')(config);
+const LOGGER = require('../logger');
 const proxyServer = require('./proxyServer')(config);
 
 module.exports = function (confProxy) {

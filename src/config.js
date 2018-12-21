@@ -1,7 +1,7 @@
 const deepAssign = require('deep-assign');
 const argv = require('./argv');
 const path = require('path');
-const LOGGER = require('./logger')(argv);
+const LOGGER = require('./logger');
 
 function loadConfigFile() {
     const defaultConfig = require('../bin/mad-proxy.config');
@@ -66,4 +66,5 @@ if(!validateConfig(config)) {
     throw Error('Invalid config!');
 }
 
+LOGGER.logLvl = config.log;
 module.exports = config;

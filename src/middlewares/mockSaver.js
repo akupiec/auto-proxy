@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const utils = require('./utils');
-const config = require('../config');
-const LOGGER = require('../logger')(config);
+const LOGGER = require('../logger');
 
 
 function mkdirSync(filePath) {
