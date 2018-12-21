@@ -48,9 +48,9 @@ describe('integration express', function () {
             });
     });
 
-    it('should create cached file', function () {
+    it('should create cached file at get', function () {
         return request(server)
-            .get('/api/abb-cc')
+            .get('/api/abb-cc?par1=aaa&par2=bbb')
             .expect(200)
             .then(() => {
                 const calls = fs.writeFileSync.mock.calls;
@@ -58,7 +58,22 @@ describe('integration express', function () {
                 let path = calls[0][0];
                 expect(path).toBeDefined();
                 path = path.replace(/\\/g, '/');
-                expect(path).toContain('/FAKE_MOCK_DIR/api/GET/abb-cc#824ac3d0.html');
+                expect(path).toContain('/FAKE_MOCK_DIR/api/GET/abb-cc#977c21ac.html');
+                expect(calls[0][1].toString()).toBe('OK');
+            });
+    });
+
+    it('should create cached file at post', function () {
+        return request(server)
+            .post('/api/abb-dd', {a: '12', b: 'aaaa'})
+            .expect(200)
+            .then(() => {
+                const calls = fs.writeFileSync.mock.calls;
+                expect(calls.length).toEqual(1);
+                let path = calls[0][0];
+                expect(path).toBeDefined();
+                path = path.replace(/\\/g, '/');
+                expect(path).toContain('/FAKE_MOCK_DIR/api/POST/abb-dd#824ac3d0.html');
                 expect(calls[0][1].toString()).toBe('OK');
             });
     });

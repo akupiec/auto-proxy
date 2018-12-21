@@ -4,7 +4,7 @@ const path = require('path');
 const LOGGER = require('./logger');
 
 function loadConfigFile() {
-    const defaultConfig = require('../bin/mad-proxy.config');
+    const defaultConfig = require('../../bin/mad-proxy.config');
     defaultConfig.proxies = [];
     let configFileData;
     if (argv.config) {
