@@ -24,7 +24,7 @@ function isFile(target = '') {
     return fs.lstatSync(path.normalize(target)).isFile();
 }
 
-module.exports = function (proxyServer) {
+module.exports = function () {
     const app = express();
     // app.use(cookieParser());
     app.use(bodyParser.raw({type: '*/*'}));
@@ -37,7 +37,7 @@ module.exports = function (proxyServer) {
             app.use(confProxy.path, bodyDataInterceptor(confProxy));
             app.use(confProxy.path, mockSaver(confProxy));
             app.use(confProxy.path, mockGetter(confProxy));
-            app.all(confProxy.path + '(/*)?', reverseProxy(confProxy, proxyServer));
+            app.all(confProxy.path + '(/*)?', reverseProxy(confProxy));
 
         } else if (isDirectory(confProxy.target)) {
             const target = path.join(process.cwd(), confProxy.path, confProxy.target);

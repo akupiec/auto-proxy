@@ -3,20 +3,23 @@
 const express = require('express');
 const config = require('../src/config');
 const server = require('../src/server');
+const reverseProxy = require('../src/middlewares/reverseProxy');
 
 jest.mock('../src/config', () => require('./testingConfig'));
 jest.mock('fs');
 jest.mock('../src/logger', () => () => ({
     info: jest.fn(),
 }));
+jest.mock('../src/middlewares/reverseProxy');
 jest.mock('express', () => jest.fn());
 
 describe('server proxy as URL', () => {
-    let listen, use, proxyServer, all;
+    let listen, use, all;
     beforeEach(function () {
         listen = jest.fn();
         use = jest.fn();
         all = jest.fn();
+        reverseProxy.mockImplementation();
         express.mockImplementation(() => ({ use, listen, all }));
         Object.assign(config, {
             server: {
@@ -28,20 +31,19 @@ describe('server proxy as URL', () => {
                 cache: { enabled: true },
             }],
         });
-        proxyServer = jest.fn();
     });
     afterEach(function () {
-        proxyServer.mockReset();
         listen.mockReset();
         use.mockReset();
         all.mockReset();
         express.mockReset();
+        reverseProxy.mockReset();
     });
 
     describe('using middleware', function () {
         let middlewares;
         beforeEach(function () {
-            server(proxyServer);
+            server();
             middlewares = use.mock.calls.map((params) => {
                 if (typeof params[0] === 'function') {
                     return params[0].name;
@@ -82,16 +84,9 @@ describe('server proxy as URL', () => {
 
     describe('delegating all', function () {
         it('reverseProxy', function testSlash() {
-            server(proxyServer);
-            const foo = all.mock.calls.map((params) => {
-                if (typeof params[0] === 'function') {
-                    return params[0].name;
-                } else if (typeof params[1] === 'function') {
-                    return params[1].name;
-                }
-                return '';
-            });
-            expect(foo).toContain('reverseProxy');
+            server();
+            expect(all.mock.calls.length).toBe(1);
+            expect(reverseProxy.mock.calls.length).toBe(1);
         });
     });
 });

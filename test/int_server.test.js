@@ -11,8 +11,16 @@ jest.mock('fs', () => ({
     writeFileSync: jest.fn(),
 }));
 
+jest.mock('../src/middlewares/proxyServer', () => () => {
+    return {
+        web: (req, res) => {
+            res.status(200).send('OK');
+        },
+    };
+});
+
 describe('integration express', function () {
-    let server, proxyServer;
+    let server;
     beforeEach(function () {
         fs.readdirSync.mockReturnValue([]);
         fs.existsSync.mockReturnValue(true);
@@ -23,13 +31,7 @@ describe('integration express', function () {
                 cache: {enabled: true},
             }],
         });
-
-        proxyServer = {
-            web: (req, res) => {
-                res.status(200).send('OK');
-            },
-        };
-        server = require('../src/server')(proxyServer);
+        server = require('../src/server')();
     });
     afterEach(function () {
         server.close();
