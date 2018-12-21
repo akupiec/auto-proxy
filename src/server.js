@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // const cookieParser = require('cookie-parser');
 const mockData = require('./middlewares/mockData');
-const validateCache = require('./middlewares/validateCache');
 const bodyDataInterceptor = require('./middlewares/bodyDataInterceptor');
 const reverseProxy = require('./middlewares/reverseProxy');
 const mockGetter = require('./middlewares/mockGeter');
@@ -33,7 +32,6 @@ module.exports = function () {
         if(isUrl(confProxy.target)) {
             LOGGER.info(`Binding reverse proxy on: ${confProxy.path} to ${confProxy.target}${confProxy.path}`);
             app.use(confProxy.path, mockData(confProxy));
-            app.use(confProxy.path, validateCache(confProxy));
             app.use(confProxy.path, bodyDataInterceptor(confProxy));
             app.use(confProxy.path, mockSaver(confProxy));
             app.use(confProxy.path, mockGetter(confProxy));

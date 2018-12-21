@@ -71,10 +71,6 @@ describe('server proxy as URL', () => {
             expect(middlewares).toContain('mockSaver');
         });
 
-        it('validateCache', function () {
-            expect(middlewares).toContain('validateCache');
-        });
-
         it('mockSaver', function () {
             expect(middlewares).toContain('mockSaver');
         });

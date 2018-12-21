@@ -1,10 +1,15 @@
 /* eslint-env jest */
 const mockData = require('../src/middlewares/mockData');
+const utils = require('../src/middlewares/utils/utils');
 
+
+jest.mock('../src/middlewares/utils/utils');
 
 describe('mockData', function () {
-    let req;
+    let req, res, next;
     beforeEach(function () {
+        res = {};
+        next = jest.fn();
         req = {
             httpVersion: '1.1',
             complete: false,
@@ -21,32 +26,36 @@ describe('mockData', function () {
             query: {},
             body: {},
         };
-        // const mock = {
-        //     hash: '#824ac3d0',
-        //     query: '',
-        //     fileName: 'abb-cc#824ac3d0',
-        //     filePath: 'C:\\Projects\\mad-proxy\\FAKE_MOCK_DIR\\api\\GET\\abb-cc#824ac3d0',
-        // };
     });
 
     it('create mock obj', function () {
-        const res = {};
-        const next = jest.fn();
         mockData()(req, res, next);
         expect(req.mock).toBeDefined();
-        expect(req.mock.hash).toBe('#824ac3d0');
+        expect(req.mock._hash).toBe('#824ac3d0');
     });
 
-    it('create fileExt', function() {
-        
-    });
     it('create fileName', function () {
-        
+        mockData()(req, res, next);
+        expect(req.mock._fileName).toBe('abb-cc');
     });
-    it('create filePaths', function () {
 
+    it('create filePath', function() {
+        mockData()(req, res, next);
+        let filePath = req.mock.filePath;
+        filePath = filePath.replace(/\\/g, '/');
+        expect(filePath).toContain('/mockDir/api/GET/abb-cc#824ac3d0');
     });
-    it('crate filePath', function() {
 
+    describe('should mockExists', function() {
+        it('be true when local file exists', function() {
+            utils.cacheFileResolve.mockReturnValue('someFilePath');
+            mockData()(req, res, next);
+            expect(req.mock.mockExists).toBe(true);
+        });
+        it('be false when file not exists', function() {
+            utils.cacheFileResolve.mockReturnValue(undefined);
+            mockData()(req, res, next);
+            expect(req.mock.mockExists).toBe(false);
+        });
     });
 });
