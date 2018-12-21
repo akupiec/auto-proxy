@@ -1,7 +1,6 @@
 const zlib = require('zlib');
 const mime = require('mime-types');
 const glob = require('glob');
-const LOGGER = require('../../config/logger');
 
 function encodeBuffer(res, buffer) {
     const encoding = res.getHeader('content-encoding');
@@ -17,18 +16,25 @@ function getExtension(res) {
     return '.' + mime.extension(contentType);
 }
 
-const cacheFileResolve = (filePath) => {
+const cachedEvilFile = (filePath) => {
     const evilFilePath = filePath.replace(/#.*/, '#666');
-    let possibleTable = glob.sync(evilFilePath + '.*');
-    if (possibleTable.length) {
-        LOGGER.warn('Evil file found! Ignoring request for: ', filePath);
-        return possibleTable[0];
-    }
+    const possibleTable = glob.sync(evilFilePath + '.*');
+    return possibleTable.length ? possibleTable[0] : undefined;
+};
 
-    possibleTable = glob.sync(filePath + '.*');
+const cacheDefaultFile = (filePath) => {
+    const evilFilePath = filePath.replace(/#.*/, '');
+    const possibleTable = glob.sync(evilFilePath + '.*');
+    return possibleTable.length ? possibleTable[0] : undefined;
+};
+
+const cacheNormalFile = (filePath) => {
+    let possibleTable = glob.sync(filePath + '.*');
     return possibleTable.length ? possibleTable[0] : undefined;
 };
 
 module.exports.getExtension = getExtension;
 module.exports.encodeBuffer = encodeBuffer;
-module.exports.cacheFileResolve = cacheFileResolve;
+module.exports.cacheNormalFile = cacheNormalFile;
+module.exports.cachedEvilFile = cachedEvilFile;
+module.exports.cacheDefaultFile = cacheDefaultFile;

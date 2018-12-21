@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.0.3
+
+- cached files without #hash can now be used
+
 ### 0.0.2
 
 - **BRAKING CHANGE**: redesigned configuration

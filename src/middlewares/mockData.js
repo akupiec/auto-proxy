@@ -22,18 +22,15 @@ module.exports = function () {
         const hash = '#' + crc.crc32(strQuery + reqBody).toString(16);
         const dirName = parseDirName(config, req.baseUrl, req.method);
         const fileName = parseFileName(req.baseUrl, req.originalUrl);
-        let filePath = path.join(process.cwd(), dirName, fileName) + hash;
+
+        const normalFilePath = path.join(process.cwd(), dirName, fileName) + hash;
+        const savedFile = utils.cachedEvilFile(normalFilePath) || utils.cacheNormalFile(normalFilePath) || utils.cacheDefaultFile(normalFilePath);
         req.mock = {
             _hash: hash,
             _fileName: fileName,
-            filePath,
+            filePath: savedFile || normalFilePath,
+            mockExists: !!savedFile,
         };
-
-        filePath = utils.cacheFileResolve(req.mock.filePath);
-        if (filePath) {
-            req.mock.filePath = filePath;
-        }
-        req.mock.mockExists = !!filePath;
 
         next();
     };
