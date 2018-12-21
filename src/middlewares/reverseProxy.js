@@ -2,7 +2,7 @@ const config = require('../config');
 const LOGGER = require('../logger')(config);
 
 module.exports = function (confProxy, proxyServer) {
-    return function middleware(req, res) {
+    return function reverseProxy(req, res) {
         if(config.proxy.disabled) {
             res.sendStatus(404);
             return;

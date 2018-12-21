@@ -1,7 +1,7 @@
 const StreamWriter = require('../StreamWriter');
 
 module.exports = function validateCache() {
-    return function (req, res, next) {
+    return function bodyDataInterceptor(req, res, next) {
         if (req.mock.mockExists) {
             next();
             return;

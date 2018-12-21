@@ -5,7 +5,11 @@ const config = require('../src/config');
 const fs = require('fs');
 
 jest.mock('../src/config', () => require('./testingConfig'));
-jest.mock('fs');
+jest.mock('fs', () => ({
+    readdirSync: jest.fn(),
+    existsSync: jest.fn(),
+    writeFileSync: jest.fn(),
+}));
 
 describe('integration express', function () {
     let server, proxyServer;
@@ -22,7 +26,7 @@ describe('integration express', function () {
 
         proxyServer = {
             web: (req, res) => {
-                res.send(200, 'OK');
+                res.status(200).send('OK');
             },
         };
         server = require('../src/server')(proxyServer);

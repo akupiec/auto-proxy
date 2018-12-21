@@ -55,5 +55,10 @@
     "eslint": "^4.10.0",
     "jest": "^23.6.0",
     "supertest": "^3.0.0"
+  },
+  "jest": {
+    "bail": true,
+    "verbose": true,
+    "testEnvironment": "node"
   }
 }

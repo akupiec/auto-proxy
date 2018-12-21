@@ -15,7 +15,7 @@ let parseFileName = function (contextPath, url, hash) {
 };
 
 module.exports = function () {
-    return function middleware(req, res, next) {
+    return function mockData(req, res, next) {
         const reqBody = req.body ? req.body.toString() : '' ;
         const strQuery = queryToString(req.query);
         const hash = '#' + crc.crc32(strQuery + reqBody).toString(16);

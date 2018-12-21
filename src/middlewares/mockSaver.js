@@ -15,7 +15,7 @@ function mkdirSync(filePath) {
 }
 
 module.exports = function (proxyConfig) {
-    return function middleware(req, res, next) {
+    return function mockSaver(req, res, next) {
         if(req.mock.mockExists || !proxyConfig.cache.enabled) {
             next();
             return;
