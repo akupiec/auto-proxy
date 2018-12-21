@@ -13,6 +13,7 @@
 	"comma-dangle": ["error", "always-multiline"],
 	"no-cond-assign": ["error", "always"],
 	"no-var": ["error"],
+	"eol-last": ["error", "always"],
 	"no-trailing-spaces": ["error"]
   }
 }

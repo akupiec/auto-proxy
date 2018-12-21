@@ -1,6 +1,6 @@
-const logger1 = require('../src/config/logger');
-const logger2 = require('../Src/config/Logger');
-const logger3 = require('../Src/config/LOGGER');
+const logger1 = require('../src/config/logger.js');
+const logger2 = require('../Src/Config/logger.js');
+const logger3 = require('../Src/CONFIG/LOGGER.js');
 
 describe('logger', function () {
     let logLvl;
@@ -17,4 +17,3 @@ describe('logger', function () {
         expect(logger1.logLvl).toBe(logger3.logLvl);
     });
 });
-
