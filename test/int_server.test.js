@@ -1,17 +1,18 @@
 /* eslint-env jest */
 
 const request = require('supertest');
-const config = require('../src/config');
+const config = require('../src/config/config');
 const fs = require('fs');
 
-jest.mock('../src/config', () => require('./testingConfig'));
+jest.mock('../src/config/config', () => require('./testingConfig'));
 jest.mock('fs', () => ({
     readdirSync: jest.fn(),
     existsSync: jest.fn(),
     writeFileSync: jest.fn(),
 }));
+jest.mock('../src/config/logger');
 
-jest.mock('../src/middlewares/proxyServer', () => {
+jest.mock('../src/middlewares/utils/proxyServer', () => {
     return {
         web: (req, res) => {
             res.status(200).send('OK');

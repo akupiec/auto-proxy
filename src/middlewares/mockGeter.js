@@ -1,5 +1,5 @@
 const fs = require('fs');
-const LOGGER = require('../logger');
+const LOGGER = require('../config/logger');
 
 module.exports = function (proxyConfig) {
     return function mockGeter(req, res, next) {

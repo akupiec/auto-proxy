@@ -1,6 +1,6 @@
-const logger1 = require('../src/logger');
-const logger2 = require('../Src/Logger');
-const logger3 = require('../Src/LOGGER');
+const logger1 = require('../src/config/logger');
+const logger2 = require('../Src/config/Logger');
+const logger3 = require('../Src/config/LOGGER');
 
 describe('logger', function () {
     let logLvl;

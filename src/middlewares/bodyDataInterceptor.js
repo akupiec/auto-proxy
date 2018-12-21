@@ -1,4 +1,4 @@
-const StreamWriter = require('../StreamWriter');
+const StreamWriter = require('./utils/StreamWriter');
 
 module.exports = function validateCache() {
     return function bodyDataInterceptor(req, res, next) {
@@ -24,5 +24,3 @@ module.exports = function validateCache() {
         next();
     };
 };
-
-// module.exports.queryToString = queryToString;

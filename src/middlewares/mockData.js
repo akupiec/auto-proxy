@@ -1,6 +1,6 @@
 const crc = require('crc');
 const path = require('path');
-const config = require('../config');
+const config = require('../config/config');
 
 function queryToString(obj) {
     return Object.keys(obj).map(key => `${key}=${obj[key]}`).join('&');

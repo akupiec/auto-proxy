@@ -1,4 +1,4 @@
-const cacheFileResolve = require('./utils').cacheFileResolve;
+const cacheFileResolve = require('./utils/utils').cacheFileResolve;
 
 module.exports = function () {
     return function validateCache(req, res, next) {

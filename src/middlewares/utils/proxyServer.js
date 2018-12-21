@@ -1,5 +1,5 @@
 const httpProxy = require('http-proxy');
-const config = require('../config');
+const config = require('../../config/config');
 
 const apiProxy = httpProxy.createProxyServer({
     secure: config.proxy.secure,

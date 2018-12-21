@@ -1,15 +1,13 @@
 /* eslint-env jest */
 
 const express = require('express');
-const config = require('../src/config');
+const config = require('../src/config/config');
 const server = require('../src/server');
 const reverseProxy = require('../src/middlewares/reverseProxy');
 
-jest.mock('../src/config', () => require('./testingConfig'));
+jest.mock('../src/config/config', () => require('./testingConfig'));
 jest.mock('fs');
-jest.mock('../src/logger', () => ({
-    info: jest.fn(),
-}));
+jest.mock('../src/config/logger');
 jest.mock('../src/middlewares/reverseProxy');
 jest.mock('express', () => jest.fn());
 

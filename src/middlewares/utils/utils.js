@@ -1,7 +1,7 @@
 const zlib = require('zlib');
 const mime = require('mime-types');
 const glob = require('glob');
-const LOGGER = require('../logger');
+const LOGGER = require('../../config/logger');
 
 function encodeBuffer(res, buffer) {
     const encoding = res.getHeader('content-encoding');

@@ -7,10 +7,10 @@ const bodyDataInterceptor = require('./middlewares/bodyDataInterceptor');
 const reverseProxy = require('./middlewares/reverseProxy');
 const mockGetter = require('./middlewares/mockGeter');
 const mockSaver = require('./middlewares/mockSaver');
-const config = require('./config');
+const config = require('./config/config');
 const path = require('path');
 const fs = require('fs');
-const LOGGER = require('./logger');
+const LOGGER = require('./config/logger');
 
 
 function isUrl(target = '') {
