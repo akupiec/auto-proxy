@@ -159,3 +159,6 @@ ex. `./mocksDir/rnc-webservices_services/GET/system_configuration#666.json`
 
 2.  _Normal Files_ - files containing hash matching payload request
 ex. `./mocksDir/rnc-webservices_services/GET/system_configuration#824ac3d0.json`
+
+3.  _Default Files_ - files without hash
+ex. `./mocksDir/rnc-`enter code here`webservices_services/GET/system_configuration.json`

@@ -1,6 +1,6 @@
 {
   "name": "mad-proxy",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Auto caching reverse proxy, useful when quick mad mocking is required",
   "main": "bin/mad-proxy",
   "directories": {
